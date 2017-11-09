@@ -13,6 +13,9 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
+
+fileName = 'tweetCSV.csv'
+
 #made a cursor
 search_terms = ('Indonesia OR Korupsi')
 c = tweepy.Cursor(api.search, q=search_terms, since='2017-11-01', until='2017-11-07',)
@@ -36,12 +39,16 @@ for tweet in c.items():
 #dump the data into json format
 data = json.dumps(tweetJson)
 print(data)
-fileName = 'tweetCSV.csv'
-try:
-	saveFile = open(fileName, 'a')
-	saveFile.write(data)
-	saveFile.write('\n')
-	saveFile.close()
-except BaseException as e:
-	print('failed ondata,', str(e))
-	time.sleep(5)
+
+with open(fileName, mode='r', encoding='utf-8') as feedsjson:
+  feeds = json.load(feedsjson)
+  json.dump(entry, feeds)
+
+  try:
+    saveFile = open(fileName, 'a')
+    saveFile.write(data)
+    saveFile.write('\n')
+    saveFile.close()
+  except BaseException as e:
+    print('failed ondata,', str(e))
+    time.sleep(5)

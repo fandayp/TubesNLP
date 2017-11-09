@@ -1,0 +1,64 @@
+Kumpulin Data
+	[
+		{
+			username: ,
+			tweetText: ,
+			lokasi: ,
+			date: ,
+		}
+	]
+
+Pre-process:
+	singkatannya di normalisasi 
+	stop words dihilangin (v)
+	punctuation 
+
+	[
+		{
+			username: ,
+			tweetText: ,
+			tweetPreProc: Ini terolah ,
+			lokasi: ,
+			date: ,
+		}
+	]
+
+Training:
+	stemming -> sub kata
+	tokenisasi
+
+	[
+		{
+			username: ,
+			tweetText:  ,
+			lokasi: ,
+			date: ,
+			nama_acara: ,
+			positif: ,
+			negatif: ,
+		}
+	]
+
+Backend:
+nama_acara: Y
+{
+	kota: [
+		{
+			nama_kota: kota X,
+			tweet = [{
+				username: ,
+				tweetText: ,
+				date: ,
+			}],
+			sentimen : {
+				positif: ,
+				negatif: ,
+			},
+			popularitas: ,
+		}
+	]
+	
+
+}
+
+["nama_acara", "nama_acara1"]
