@@ -10,7 +10,7 @@ from bson import json_util
 df=pd.read_csv('provinces.csv', sep=',',header=None)
 provinces = df[1]
 
-fileAcara = ['listAcara.txt', 'listAcara2.txt']
+fileAcara = ['acara2.txt']
 
 fileName = 'tweetCSV.csv'
 
@@ -26,10 +26,10 @@ def locationChecker(item, provinces):
 
   return ret
 
-consumer_key = 'gET7oqtyEhh8CR7ERpBUxuHFc'
-consumer_secret = '0PC0DJAdFi4cuOhlBQUzCGOZGVPGK1KxnCU8KIvc9SlAD144Aj'
-access_token = '732587676-GhORtrYwFjWkpqVboAiukwok1uhLVLvB08CnZxlG'
-access_token_secret = 'IXNw1vYaJ24vSOhBTWrbG5acJ5GX9VJTY6V3Igk49roUS'
+consumer_key = 'hqtPip2z6tpfEHhSnY6H8QxHm'
+consumer_secret = 'HC8FLdoVj6C5ulG82EgcnYHP8BkjEXtbElb9OU5owErE4oRQGV'
+access_token = '565380886-A6v6oAnStukXWz4kpmKQ364kOSW7vzAlvzgHgH3o'
+access_token_secret = 'bQAwxzdhQUTxJIvkoExuWHkMshuuJ6bOlxRkvuJmpuBit'
 
 # Authenticate twitter Api
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -50,7 +50,7 @@ for i in fileAcara:
       acara = acara + ' OR ' + item
 
   #made a cursor
-  search_terms = ('Indonesia')
+  search_terms = (acara)
   c = tweepy.Cursor(api.search, q=search_terms, since='2017-11-01')
   c.pages(150) # you can change it make get tweets
 
@@ -89,11 +89,11 @@ else:
   print("False")
   with open(fileName, mode='r', encoding='utf-8') as feedsjson:
     feeds = json.load(feedsjson)
-    print(type(tweetJson), type(feeds))
-    print(tweetJson, '\n')
-    print(feeds, '\n')
+    # print(type(tweetJson), type(feeds))
+    # print(tweetJson, '\n')
+    # print(feeds, '\n')
     concatedData = tweetJson + feeds
-    print(concatedData)
+    # print(concatedData)
 
   open(fileName, 'w').close()
   data = json.dumps(concatedData)
