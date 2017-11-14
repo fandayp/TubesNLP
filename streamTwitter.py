@@ -50,7 +50,7 @@ for i in fileAcara:
       acara = acara + ' OR ' + item
 
   #made a cursor
-  search_terms = (acara)
+  search_terms = ('Indonesia')
   c = tweepy.Cursor(api.search, q=search_terms, since='2017-11-01')
   c.pages(150) # you can change it make get tweets
 
