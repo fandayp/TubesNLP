@@ -1,0 +1,1 @@
+[{"username":"test" ,"tweetText":"aing beli makanan dengan" ,"lokasi":"Bandung" ,"date":"2017-11-14 12:19:17"}, {"username":"test" ,"tweetText":"string. With. Punctuation?" ,"lokasi":"Bandung" ,"date":"2017-11-14 12:19:17"}]
