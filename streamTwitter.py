@@ -10,7 +10,6 @@ from bson import json_util
 df=pd.read_csv('provinces.csv', sep=',',header=None)
 provinces = df[1]
 
-#1, 2, 3, 4, 5, 7, 8, 9, 
 fileAcara = ['daftar acara korea/acara11.txt']
 
 fileName = 'tweetCSV.csv'
@@ -83,7 +82,6 @@ for i in fileAcara:
 print(len(tweetJson))
 
 if (os.stat(fileName).st_size == 0):
-  print("True")
   data = json.dumps(tweetJson)
   try:
     saveFile = open(fileName, 'a')
@@ -94,14 +92,9 @@ if (os.stat(fileName).st_size == 0):
     print('failed ondata,', str(e))
     time.sleep(5)  
 else:
-  print("False")
   with open(fileName, mode='r', encoding='utf-8') as feedsjson:
     feeds = json.load(feedsjson)
-    # print(type(tweetJson), type(feeds))
-    # print(tweetJson, '\n')
-    # print(feeds, '\n')
     concatedData = tweetJson + feeds
-    # print(concatedData)
 
   open(fileName, 'w').close()
   data = json.dumps(concatedData)
