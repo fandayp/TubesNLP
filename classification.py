@@ -81,7 +81,7 @@ for idx in data.index:
 	rows.append(current_row)
 
 bow = pd.DataFrame(rows, columns=columns)
-print(bow)
+# print(bow)
 labels = pd.Series(labels)
 
 with open('randomForest.pkl', 'rb') as f:
@@ -89,5 +89,34 @@ with open('randomForest.pkl', 'rb') as f:
 
 prediction = model.predict(bow)
 
-print(prediction)
+print(len(prediction))
+with open('newTweet.csv') as json_data:
+	d = json.load(json_data)
 
+classifiedTweet = []
+i = 0
+
+print(len(d))
+
+for item in d:
+	classifiedTweet.append(
+            {'tweetText':item['tweetText'],
+            'location': item['location'],
+            'tweetCreatedAt':item['tweetCreatedAt'],
+            'username': item['username'],
+            'authorName': item['authorName'],
+			'nama_acara': item['nama_acara'],
+			'sentiment': prediction[i]
+            })
+	# print(classifiedTweet, prediction[i], "\n")
+	i += 1
+
+data = json.dumps(classifiedTweet)
+try:
+	saveFile = open('classifiedTweet.csv', 'a')
+	saveFile.write(data)
+	saveFile.write('\n')
+	saveFile.close()
+except BaseException as e:
+	print('failed ondata,', str(e))
+	time.sleep(5)  
