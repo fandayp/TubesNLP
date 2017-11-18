@@ -10,7 +10,7 @@ from bson import json_util
 df=pd.read_csv('provinces.csv', sep=',',header=None)
 provinces = df[1]
 
-fileAcara = ['acara2.txt']
+fileAcara = ['daftar acara korea/acara11.txt']
 
 fileName = 'tweetCSV.csv'
 
@@ -49,33 +49,39 @@ for i in fileAcara:
     else:
       acara = acara + ' OR ' + item
 
+  print(acara)
+
   #made a cursor
   search_terms = (acara)
-  c = tweepy.Cursor(api.search, q=search_terms, since='2017-11-01')
-  c.pages(150) # you can change it make get tweets
+  # you can change it make get tweets
 
   #Lets save the selected part of the tweets inot json
-  for tweet in c.items():
-      if tweet.lang == 'en':
-          createdAt = str(tweet.created_at)
-          authorCreatedAt = str(tweet.author.created_at)
-          location = str(tweet.user.location)
-          if (str(tweet.user.location) == "" or locationChecker(str(tweet.user.location), provinces)):
-            location = randomProvinces()
-          username = str(tweet.user.name)
-          tweetJson.append(
-            {'tweetText':tweet.text,
-            'location': location,
-            'tweetCreatedAt':createdAt,
-            'username': username,
-            'authorName': tweet.author.name,
-            })
+  for tweet in tweepy.Cursor(api.search, q=search_terms, lang = 'en', tweet_mode='extended', since='2017-11-01').items(100):
+    createdAt = str(tweet.created_at)
+    authorCreatedAt = str(tweet.author.created_at)
+    username = str(tweet.user.name)
+    location = str(tweet.user.location)
+    if (str(tweet.user.location) == "" or locationChecker(str(tweet.user.location), provinces)):
+      location = randomProvinces()
+    text = ""
+    if 'retweeted_status' in dir(tweet):
+      text = tweet.retweeted_status.full_text
+    else:
+      text = tweet.full_text
+
+    tweetJson.append(
+      {'tweetText':text,
+      'location': location,
+      'tweetCreatedAt':createdAt,
+      'username': username,
+      'authorName': tweet.author.name,
+      })
 
   #dump the data into json format
   # print(tweetJson, type(tweetJson))
+print(len(tweetJson))
 
 if (os.stat(fileName).st_size == 0):
-  print("True")
   data = json.dumps(tweetJson)
   try:
     saveFile = open(fileName, 'a')
@@ -86,14 +92,9 @@ if (os.stat(fileName).st_size == 0):
     print('failed ondata,', str(e))
     time.sleep(5)  
 else:
-  print("False")
   with open(fileName, mode='r', encoding='utf-8') as feedsjson:
     feeds = json.load(feedsjson)
-    # print(type(tweetJson), type(feeds))
-    # print(tweetJson, '\n')
-    # print(feeds, '\n')
     concatedData = tweetJson + feeds
-    # print(concatedData)
 
   open(fileName, 'w').close()
   data = json.dumps(concatedData)
